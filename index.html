@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marcelo M. Simões | Desenvolvedor Front-End Freelancer & Especialista TI</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==========================================
+           PASSO 3: ESTILOS CSS (DARK MODE & THEME)
+           ========================================== */
+        :root {
+            --bg-color: #0a0c10;
+            --bg-card: #12161f;
+            --bg-card-hover: #181e2a;
+            --surface-border: rgba(255, 255, 255, 0.08);
+            --surface-border-hover: rgba(56, 189, 248, 0.3);
+            
+            --primary: #38bdf8;
+            --primary-glow: rgba(56, 189, 248, 0.15);
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            
+            --font-heading: 'Outfit', sans-serif;
+            --font-body: 'Source Sans 3', sans-serif;
+            
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --container-width: 1140px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4 {
+            font-family: var(--font-heading);
+            color: var(--text-main);
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition);
+        }
+
+        /* Layout Helpers */
+        .container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .section-padding {
+            padding: 6rem 0;
+        }
+
+        .section-title {
+            font-size: 2.25rem;
+            margin-bottom: 0.75rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+            max-width: 600px;
+        }
+
+        /* Badge Components */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.35rem 0.85rem;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--surface-border);
+            color: var(--text-main);
+            transition: var(--transition);
+        }
+
+        .badge-accent {
+            background: var(--primary-glow);
+            border-color: rgba(56, 189, 248, 0.3);
+            color: var(--primary);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            padding: 0.85rem 1.75rem;
+            border-radius: 8px;
+            font-family: var(--font-heading);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid transparent;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: #040914;
+            box-shadow: 0 4px 20px rgba(56, 189, 248, 0.25);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(56, 189, 248, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border-color: var(--surface-border);
+            color: var(--text-main);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--primary-glow);
+            transform: translateY(-2px);
+        }
+
+        /* Header / Navbar */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: var(--transition);
+            padding: 1.25rem 0;
+        }
+
+        .header.scrolled {
+            background: rgba(10, 12, 16, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--surface-border);
+            padding: 0.85rem 0;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 1.35rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-link {
+            color: var(--text-muted);
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        /* Scroll Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.appear {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ==========================================
+           SEÇÃO 1: HERO SECTION
+           ========================================== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 5rem;
+            position: relative;
+            background: radial-gradient(circle at 80% 20%, rgba(56, 189, 248, 0.05) 0%, transparent 50%);
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .hero-subtitle {
+            color: var(--primary);
+            font-family: var(--font-heading);
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 5vw, 4.25rem);
+            margin-bottom: 1.25rem;
+            letter-spacing: -1px;
+        }
+
+        .hero-description {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 2.25rem;
+            max-width: 680px;
+            font-weight: 300;
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        /* ==========================================
+           SEÇÃO 2: SOBRE MIM
+           ========================================== */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text p {
+            color: var(--text-muted);
+            margin-bottom: 1.25rem;
+            font-size: 1.05rem;
+        }
+
+        .skills-container {
+            background: var(--bg-card);
+            padding: 2.25rem;
+            border-radius: 16px;
+            border: 1px solid var(--surface-border);
+        }
+
+        .skills-group-title {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--text-main);
+        }
+
+        .skills-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-bottom: 1.75rem;
+        }
+
+        .skills-wrapper:last-child {
+            margin-bottom: 0;
+        }
+
+        /* ==========================================
+           SEÇÃO 3: PROJETOS
+           ========================================== */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.75rem;
+        }
+
+        .project-card {
+            background: var(--bg-card);
+            border-radius: 14px;
+            border: 1px solid var(--surface-border);
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .project-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--surface-border-hover);
+            background: var(--bg-card-hover);
+        }
+
+        .project-card:hover::before {
+            opacity: 1;
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.25rem;
+        }
+
+        .project-icon {
+            width: 42px;
+            height: 42px;
+            background: var(--primary-glow);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+        }
+
+        .project-title {
+            font-size: 1.35rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .project-description {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .project-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .project-link:hover {
+            text-decoration: underline;
+        }
+
+        /* ==========================================
+           SEÇÃO 4: EXPERIÊNCIA PROFISSIONAL
+           ========================================== */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 20px;
+            height: 100%;
+            width: 2px;
+            background: var(--surface-border);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 3.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 13px;
+            top: 5px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--bg-color);
+            border: 2px solid var(--primary);
+            box-shadow: 0 0 10px var(--primary-glow);
+        }
+
+        .timeline-card {
+            background: var(--bg-card);
+            border: 1px solid var(--surface-border);
+            padding: 1.75rem;
+            border-radius: 12px;
+        }
+
+        .timeline-role {
+            font-size: 1.2rem;
+            color: var(--text-main);
+        }
+
+        .timeline-company {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-period {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .timeline-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* ==========================================
+           SEÇÃO 5: CONTATO & FOOTER
+           ========================================== */
+        .footer {
+            background: #06080b;
+            border-top: 1px solid var(--surface-border);
+            padding: 5rem 0 2rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .footer-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-text {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-size: 1.05rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.25rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid var(--surface-border);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .timeline::before {
+                left: 10px;
+            }
+
+            .timeline-dot {
+                left: 3px;
+            }
+
+            .timeline-item {
+                padding-left: 2.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- PASSO 2: NAVBAR FIXA -->
+    <header class="header" id="header">
+        <div class="container nav">
+            <a href="#" class="logo">Marcelo<span>.Simões</span></a>
+            <ul class="nav-links">
+                <li><a href="#sobre" class="nav-link">Sobre</a></li>
+                <li><a href="#projetos" class="nav-link">Projetos</a></li>
+                <li><a href="#experiencia" class="nav-link">Experiência</a></li>
+                <li><a href="#contato" class="nav-link">Contato</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <!-- PASSO 2: 1. HERO SECTION -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content fade-in">
+                    <p class="hero-subtitle">Desenvolvedor Front-End Freelancer & TI</p>
+                    <h1 class="hero-title">Marcelo M. Simões</h1>
+                    <p class="hero-description">
+                        Especialista em construção de interfaces web modernas, responsivas e de alta performance, unindo Front-End refinado, integração de dados com MySQL e Power BI, além de suporte de infraestrutura e redes.
+                    </p>
+                    <div class="hero-buttons">
+                        <a href="#projetos" class="btn btn-primary">
+                            Ver Projetos
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+                        </a>
+                        <a href="https://www.linkedin.com/in/marcelo-m-simoes-873b3780/" target="_blank" rel="noopener" class="btn btn-outline">
+                            LinkedIn
+                        </a>
+                        <a href="https://github.com" target="_blank" rel="noopener" class="btn btn-outline">
+                            GitHub
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PASSO 2: 2. SOBRE MIM -->
+        <section class="section-padding" id="sobre">
+            <div class="container">
+                <div class="about-grid">
+                    <div class="about-text fade-in">
+                        <h2 class="section-title">Sobre Mim</h2>
+                        <p class="section-subtitle" style="margin-bottom: 1.5rem;">Soluções web completas e infraestrutura de TI sólida.</p>
+                        <p>
+                            Com atuação como desenvolvedor Front-End Freelancer e profissional técnico, foco na criação de experiências digitais eficientes, acessíveis e alinhadas aos objetivos de negócios.
+                        </p>
+                        <p>
+                            Minha trajetória engloba desde o desenvolvimento de layouts semânticos com HTML5, CSS3 puro e JavaScript, até a análise estratégica de dados utilizando SQL e Power BI. Além disso, possuo sólida bagagem em Redes de Computadores e Manutenção de Sistemas.
+                        </p>
+                    </div>
+
+                    <div class="skills-container fade-in">
+                        <h3 class="skills-group-title">Front-End & Interface</h3>
+                        <div class="skills-wrapper">
+                            <span class="badge badge-accent">HTML5</span>
+                            <span class="badge badge-accent">CSS3</span>
+                            <span class="badge badge-accent">JavaScript</span>
+                            <span class="badge">Flexbox & Grid</span>
+                            <span class="badge">Design Responsivo</span>
+                        </div>
+
+                        <h3 class="skills-group-title">Banco de Dados & BI</h3>
+                        <div class="skills-wrapper">
+                            <span class="badge badge-accent">MySQL</span>
+                            <span class="badge badge-accent">Power BI</span>
+                            <span class="badge">Modelagem de Dados</span>
+                            <span class="badge">Dashboards</span>
+                        </div>
+
+                        <h3 class="skills-group-title">Infraestrutura & Suporte</h3>
+                        <div class="skills-wrapper">
+                            <span class="badge">Redes de Computadores</span>
+                            <span class="badge">Manutenção de Hardware</span>
+                            <span class="badge">Diagnóstico de Sistemas</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PASSO 2: 3. PROJETOS -->
+        <section class="section-padding" id="projetos" style="background: rgba(255, 255, 255, 0.01);">
+            <div class="container">
+                <h2 class="section-title fade-in">Projetos em Destaque</h2>
+                <p class="section-subtitle fade-in">Uma seleção de trabalhos focados em código limpo, visual moderno e resolução de problemas realistas.</p>
+
+                <div class="projects-grid">
+                    <!-- Card 1 -->
+                    <article class="project-card fade-in">
+                        <div>
+                            <div class="project-header">
+                                <div class="project-icon">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                                </div>
+                                <span class="badge">Front-End</span>
+                            </div>
+                            <h3 class="project-title">Landing Page Institucional</h3>
+                            <p class="project-description">
+                                Interface moderna desenvolvida com foco em alta taxa de conversão, carregamento ultra-rápido, tipografia escalável e SEO otimizado.
+                            </p>
+                        </div>
+                        <div>
+                            <div class="project-stack">
+                                <span class="badge">HTML5</span>
+                                <span class="badge">CSS3</span>
+                                <span class="badge">JavaScript</span>
+                            </div>
+                            <a href="https://github.com" target="_blank" rel="noopener" class="project-link">
+                                Ver no GitHub
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                            </a>
+                        </div>
+                    </article>
+
+                    <!-- Card 2 -->
+                    <article class="project-card fade-in">
+                        <div>
+                            <div class="project-header">
+                                <div class="project-icon">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                                </div>
+                                <span class="badge">Business Intelligence</span>
+                            </div>
+                            <h3 class="project-title">Dashboard de Vendas BI & SQL</h3>
+                            <p class="project-description">
+                                Painel interativo integrado ao MySQL para acompanhamento de KPIs, fluxo de vendas e relatórios executivos dinâmicos.
+                            </p>
+                        </div>
+                        <div>
+                            <div class="project-stack">
+                                <span class="badge">Power BI</span>
+                                <span class="badge">MySQL</span>
+                                <span class="badge">ETL</span>
+                            </div>
+                            <a href="https://github.com" target="_blank" rel="noopener" class="project-link">
+                                Ver no GitHub
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                            </a>
+                        </div>
+                    </article>
+
+                    <!-- Card 3 -->
+                    <article class="project-card fade-in">
+                        <div>
+                            <div class="project-header">
+                                <div class="project-icon">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="15" x2="23" y2="15"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="15" x2="4" y2="15"/></svg>
+                                </div>
+                                <span class="badge">Infraestrutura</span>
+                            </div>
+                            <h3 class="project-title">Monitor & Gestão de Hardware</h3>
+                            <p class="project-description">
+                                Documentação e rotinas técnicas para manutenção preventiva, diagnóstico estruturado de hardware e configuração de redes locais.
+                            </p>
+                        </div>
+                        <div>
+                            <div class="project-stack">
+                                <span class="badge">Redes</span>
+                                <span class="badge">Manutenção TI</span>
+                                <span class="badge">Linux</span>
+                            </div>
+                            <a href="https://github.com" target="_blank" rel="noopener" class="project-link">
+                                Ver no GitHub
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                            </a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- PASSO 2: 4. EXPERIÊNCIA PROFISSIONAL -->
+        <section class="section-padding" id="experiencia">
+            <div class="container">
+                <h2 class="section-title fade-in">Experiência Profissional</h2>
+                <p class="section-subtitle fade-in">Trajetória focada em entrega de valor técnico e melhoria contínua de processos.</p>
+
+                <div class="timeline">
+                    <div class="timeline-item fade-in">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-card">
+                            <h3 class="timeline-role">Desenvolvedor Front-End Freelancer</h3>
+                            <div class="timeline-company">Atuação Autônoma</div>
+                            <span class="timeline-period">Atualidade</span>
+                            <p class="timeline-desc">
+                                Criação de páginas de captura, portfolios e componentes visuais sob medida. Foco em código semântico, layouts responsivos, boas práticas de CSS e otimização de velocidade.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item fade-in">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-card">
+                            <h3 class="timeline-role">Especialista em Suporte & Infraestrutura de TI</h3>
+                            <div class="timeline-company">Projetos & Manutenção</div>
+                            <span class="timeline-period">Experiência Consolidada</span>
+                            <p class="timeline-desc">
+                                Manutenção preventiva e corretiva de equipamentos de informática, roteamento de redes, cabeamento estruturado e suporte a sistemas operacionais.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- PASSO 2: 5. CONTATO / FOOTER -->
+    <footer class="footer" id="contato">
+        <div class="container footer-content fade-in">
+            <h2 class="footer-title">Vamos construir algo incrível juntos?</h2>
+            <p class="footer-text">
+                Estou disponível para projetos de desenvolvimento Front-End, criação de dashboards ou consultoria técnica de TI.
+            </p>
+            
+            <div class="social-links">
+                <a href="https://www.linkedin.com/in/marcelo-m-simoes-873b3780/" target="_blank" rel="noopener" class="btn btn-outline">
+                    LinkedIn
+                </a>
+                <a href="https://github.com" target="_blank" rel="noopener" class="btn btn-outline">
+                    GitHub
+                </a>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 Marcelo M. Simões. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- PASSO 3: JAVASCRIPT INLINE -->
+    <script>
+        // Transição de Blur/Fundo na Navbar ao Rolar a Página
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Animação Fade-In ao Rolar (Intersection Observer)
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('appear');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
